@@ -1,9 +1,16 @@
-const city = 'Magnitogorsk' //Присвоение переменной city значения Magnitogorsk
+let price = 100
 
-const temperature = '14°' //Присвоение переменной temperature значения 14°
+price = 150
 
-console.log(city, temperature) //Вывод информации в консоль
+console.log(price)
 
-const result = (17+10) * 4 //Присвоение выражения переменной result
+const price = 100
 
-console.log(result) //вывод результата выражения в консоль
+let price = 150
+
+/*let и const не позволяют повторно объявлять переменную с тем же именем в той же области видимости. 
+const - для неизменяемых значений
+let - для изменяемых значений*/
+
+
+
