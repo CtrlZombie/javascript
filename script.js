@@ -1,16 +1,29 @@
-let price = 100
+const stringExample = 'Hello World'; //String: строки, которые представляют текстовые данные.
+console.log(typeof stringExample);
 
-price = 150
+const numberExample = 29; //Number: числовые значения.
+console.log(typeof numberExample);
 
-console.log(price)
+const isItBoolean = true; //Boolean: логические значения (true или false).
+console.log(typeof isItBoolean);
 
-const price = 100
+let withoutValue; //Undefined: специальное значение, означающее, что переменная объявлена, но ей не присвоено значение.
+console.log(typeof withoutValue);
 
-let price = 150
+const a = null; //null — это специальное значение, представляющее намеренное отсутствие значения.
+console.log(typeof a);
 
-/*let и const не позволяют повторно объявлять переменную с тем же именем в той же области видимости. 
-const - для неизменяемых значений
-let - для изменяемых значений*/
+let b = 10;
+let c = a; // Копируем значение 10 в переменную b
 
+//разница между хранением данных по ссылке и по значению более детально
+b = 20; // Меняем только b
+console.log(c); // 10 (c не изменилось)
+
+let userName1 = {name: 'Kate'};
+let userName2 = userName1; //Копируем ссылку на объект
+
+userName1.name = 'ivan'; //Меняем данные по ссылке
+console.log(userName2); //userName2 тоже изменился
 
 
