@@ -1,29 +1,56 @@
-const stringExample = 'Hello World'; //String: строки, которые представляют текстовые данные.
-console.log(typeof stringExample);
+//Решение первого примера
+const example1 = 2 * 2 + 2;
+console.log(example1);
 
-const numberExample = 29; //Number: числовые значения.
-console.log(typeof numberExample);
+//Решение второго примера
+const degreesToRadians = (degrees) => degrees * (Math.PI / 180);
+const sin54 = Math.sin(degreesToRadians(54));
+const cos16 = Math.cos(degreesToRadians(16));
+const example2 = Math.pow(sin54 * cos16, 2);
+console.log(example2.toFixed(3));
 
-const isItBoolean = true; //Boolean: логические значения (true или false).
-console.log(typeof isItBoolean);
+//Решение третьего примера
+const examplePart1 = Math.sqrt(13.2 * 71.9);
+const examplePart2 = 16 * examplePart1;
+const examplePart3 = 2.4 * 7 ** 4;
+const examplePart4 = examplePart2 / examplePart3;
+const examplePart5 = 3 ** Math.sqrt(49);
+const leftSideOfExample = examplePart4 + examplePart5;
+const answer = leftSideOfExample * 2 ** 7;
 
-let withoutValue; //Undefined: специальное значение, означающее, что переменная объявлена, но ей не присвоено значение.
-console.log(typeof withoutValue);
-
-const a = null; //null — это специальное значение, представляющее намеренное отсутствие значения.
-console.log(typeof a);
-
-let b = 10;
-let c = a; // Копируем значение 10 в переменную b
-
-//разница между хранением данных по ссылке и по значению более детально
-b = 20; // Меняем только b
-console.log(c); // 10 (c не изменилось)
-
-let userName1 = {name: 'Kate'};
-let userName2 = userName1; //Копируем ссылку на объект
-
-userName1.name = 'ivan'; //Меняем данные по ссылке
-console.log(userName2); //userName2 тоже изменился
-
+//Проверка чисел на четность/нечетность
+console.log(Math.round(answer));
+const numbers = {
+  a: 12,
+  b: 15,
+  c: 29,
+};
+if (numbers.a % 2 === 0) {
+  console.log(numbers.a + " - чётное");
+} else {
+  console.log(numbers.a + " - нечётное");
+}
+if (numbers.b % 2 === 0) {
+  console.log(numbers.b + " - чётное");
+} else {
+  console.log(numbers.b + " - нечётное");
+}
+if (numbers.c % 2 === 0) {
+  console.log(numbers.c + " - чётное");
+} else {
+  console.log(numbers.c + " - нечётное");
+}
+//Проверка переменной name
+let name1
+let name2 = "Ivan";
+let name3 = null
+let name4 = ''
+const greetingName = (name1 ?? 'Guest').trim() || 'Guest';
+const greetingName2 = (name2 ?? 'Guest').trim() || 'Guest';
+const greetingName3 = (name3 ?? 'Guest').trim() || 'Guest';
+const greetingName4 = (name4 ?? 'Guest').trim() || 'Guest';
+console.log(`Hello, ${greetingName}!`);
+console.log(`Hello, ${greetingName2}!`);
+console.log(`Hello, ${greetingName3}!`);
+console.log(`Hello, ${greetingName4}!`);
 
