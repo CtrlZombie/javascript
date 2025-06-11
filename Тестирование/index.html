@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Киновикторина</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎬 Киновикторина</h1>
+
+      <div id="start-screen" class="screen">
+        <p>
+          Проверьте свои знания кино! Тест содержит 10 вопросов разных типов.
+        </p>
+        <button id="start-btn" class="btn">Начать тест</button>
+      </div>
+
+      <div id="quiz-screen" class="screen hidden">
+        <div class="header">
+          <div id="timer">Время: 30 сек</div>
+          <div id="progress" class="progress">Вопрос 1/10</div>
+        </div>
+
+        <div id="question-container">
+          <h2 id="question-text"></h2>
+          <div id="options" class="options"></div>
+          <div id="input-container" class="hidden">
+            <input
+              type="text"
+              id="text-answer"
+              placeholder="Введите ответ..."
+            />
+            <button id="submit-answer" class="btn">Ответить</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="result-screen" class="screen hidden">
+        <h2>Результаты теста</h2>
+        <div id="score-container">
+          <p>Ваш результат: <span id="score">0</span>/10</p>
+          <p>Лучший результат: <span id="best-score">0</span>/10</p>
+        </div>
+        <button id="restart-btn" class="btn">Пройти еще раз</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
