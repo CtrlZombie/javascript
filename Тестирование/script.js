@@ -102,7 +102,7 @@ function init() {
   restartBtn.addEventListener("click", restartQuiz);
   submitAnswerBtn.addEventListener("click", checkTextAnswer);
 
-  textAnswer.addEventListener("keypress", function(e) {
+  textAnswer.addEventListener("keypress", function (e) {
     if (e.key === "Enter") {
       checkTextAnswer();
     }
@@ -187,6 +187,25 @@ function checkTextAnswer() {
     textAnswer.classList.add("correct");
   } else {
     textAnswer.classList.add("incorrect");
+
+    // Создаем контейнер для правильного ответа
+    const correctAnswerContainer = document.createElement("div");
+    correctAnswerContainer.className = "correct-answer-container";
+
+    // Создаем элемент с правильным ответом
+    const correctAnswerElement = document.createElement("div");
+    correctAnswerElement.className = "correct-answer";
+    correctAnswerElement.innerHTML = `
+      <span>Правильный ответ: </span>
+      <strong>${question.answer}</strong>
+    `;
+
+    // Добавляем анимацию пульсации
+    correctAnswerElement.style.animation = "pulse 1s infinite";
+
+    // Вставляем элементы в DOM
+    correctAnswerContainer.appendChild(correctAnswerElement);
+    inputContainer.appendChild(correctAnswerContainer);
   }
 
   // Блокируем поле ввода после ответа
@@ -194,11 +213,21 @@ function checkTextAnswer() {
   submitAnswerBtn.disabled = true;
 
   setTimeout(() => {
+    // Удаляем стили и разблокируем поле
     textAnswer.classList.remove("correct", "incorrect");
     textAnswer.disabled = false;
     submitAnswerBtn.disabled = false;
+
+    // Удаляем сообщение с правильным ответом
+    const correctAnswerContainer = inputContainer.querySelector(
+      ".correct-answer-container"
+    );
+    if (correctAnswerContainer) {
+      correctAnswerContainer.remove();
+    }
+
     nextQuestion();
-  }, 1000);
+  }, 2000); // Увеличиваем время для чтения правильного ответа
 }
 // Переход к следующему вопросу
 function nextQuestion() {
@@ -249,33 +278,34 @@ function showResults() {
     currentScore++;
     if (currentScore > score) clearInterval(scoreAnimation);
   }, 100);
+  const bestScore = localStorage.getItem("bestScore") || 0;
+  if (score > bestScore) {
+    localStorage.setItem("bestScore", score);
+    bestScoreEl.textContent = score;
+  }
 }
 
 // Сохранение лучшего результата
-const bestScore = localStorage.getItem("bestScore") || 0;
-if (score > bestScore) {
-  localStorage.setItem("bestScore", score);
-  bestScoreEl.textContent = score;
-}
 
 // Перезапуск теста
 function restartQuiz() {
-  resultScreen.classList.add("hidden");
-  startScreen.classList.remove("hidden");
+  // Сбрасываем все состояния
   currentQuestion = 0;
   score = 0;
-
-  // Сбрасываем все визуальные состояния
   inputContainer.classList.add("hidden");
   inputContainer.classList.remove("correct", "incorrect");
   optionsContainer.innerHTML = "";
   textAnswer.value = "";
-
-  // Убираем анимацию fade-out если она осталась
   document.getElementById("question-container").classList.remove("fade-out");
 
-  // Показываем первый вопрос сразу
+  // Сразу переходим к тесту, минуя стартовый экран
+  startScreen.classList.add("hidden");
+  resultScreen.classList.add("hidden");
+  quizScreen.classList.remove("hidden");
+  
+  // Показываем первый вопрос
   showQuestion();
+  startTimer(); // Не забываем запустить таймер
 }
 // Запуск приложения
 init();
