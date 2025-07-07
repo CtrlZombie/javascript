@@ -29,7 +29,7 @@ function createBankAccount(initailBalance) {
         balance -= amount;
         console.log(`Снятие ${amount}. Новый баланс: ${balance}.`);
       } else {
-        concole.log('Недостаточно средств на счете');
+        console.log('Недостаточно средств на счете');
       }
     }
   };
@@ -47,8 +47,7 @@ function createFibonacciCalculator() {
     if (cache[n] !== undefined) {
       return cache[n];
     }
-    let a = 0;
-    let b = 1;
+    let [a, b] = [1, 2];
     let temp;
 
     for (let i = 2; i <= n; i++) {
