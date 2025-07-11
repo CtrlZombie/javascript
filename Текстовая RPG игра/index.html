@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Офисная RPG: Пупа vs Бухгалтерия</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alumni+Sans:wght@100..900&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="game-container">
+      <h1>Пупа и Зарплата</h1>
+      <div class="statsAndLocation">
+        <div class="stats-panel">
+          <h2>Пупа</h2>
+          <div class="stat">
+            <span class="stat-name">Здоровье:</span>
+            <span id="player-health" class="stat-value">100</span>
+            <div class="health-bar">
+              <div id="player-health-bar" class="health-bar-fill"></div>
+            </div>
+          </div>
+          <div class="stat">
+            <span class="stat-name">Уровень:</span>
+            <span id="player-level" class="stat-value">1</span>
+          </div>
+          <div class="stat">
+            <span class="stat-name">Инвентарь:</span>
+            <span id="player-inventory" class="stat-value"
+              >Кофе, Бутерброд</span
+            >
+          </div>
+        </div>
+        <div class="location-panel">
+          <h2 id="location-name">Офис</h2>
+          <p id="location-description">
+            Пупа понимает: зарплата не пришла! Нужно идти в бухгалтерию.
+          </p>
+
+          <div id="enemy-container" class="hidden">
+            <h3>Враг: <span id="enemy-name"></span></h3>
+            <div class="stat">
+              <span class="stat-name">Здоровье:</span>
+              <span id="enemy-health" class="stat-value"></span>
+              <div class="health-bar">
+                <div id="enemy-health-bar" class="health-bar-fill"></div>
+              </div>
+            </div>
+            <p id="enemy-attack-text"></p>
+          </div>
+        </div>
+      </div>
+      <div class="actions-panel">
+        <h2>Действия</h2>
+        <div id="move-actions" class="move-actions">
+          <button id="move-1" class="action-btn">Идти в зону отдыха</button>
+          <button id="move-2" class="action-btn" disabled>
+            Идти в коридор
+          </button>
+          <button id="move-3" class="action-btn" disabled>
+            Идти в бухгалтерию
+          </button>
+        </div>
+
+        <div id="combat-actions" class="combat-actions hidden">
+          <button id="attack-btn" class="action-btn" disabled>Атаковать</button>
+          <button id="use-item-btn" class="action-btn" disabled>
+            Использовать предмет
+          </button>
+          <button id="run-btn" class="action-btn" disabled>Сбежать</button>
+        </div>
+      </div>
+      <div class="log-panel">
+        <h2>Журнал событий</h2>
+        <div id="game-log" class="log-content">
+          <p>Пупа начинает свой путь за зарплатой...</p>
+        </div>
+      </div>
+      <button id="reset-btn" class="reset-btn">Сбросить игру</button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

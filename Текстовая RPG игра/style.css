@@ -1,0 +1,278 @@
+:root {
+  --bg: #1a1c2c;
+  --panel: #3d2752;
+  --text: #e3f3ff;
+  --accent: #ffcd75;
+  --health: #ff5a5f;
+  --enemy: #ff8c78;
+  --button: #41a6f6;
+  --button-hover: #2d87d1;
+  --log: #272d4d;
+}
+
+body {
+  font-family: "Press Start 2P", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0;
+  padding: 20px;
+  image-rendering: pixelated;
+}
+
+.game-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  border: 4px solid var(--accent);
+  box-shadow: 0 0 0 8px var(--panel);
+  background: var(--panel);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+h1 {
+  text-align: center;
+  color: var(--accent);
+  margin: 0;
+  padding: 20px;
+  background: var(--panel);
+  font-size: 24px;
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+  letter-spacing: 2px;
+}
+
+.statsAndLocation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  padding: 15px;
+  background: var(--panel);
+}
+
+.stats-panel,
+.location-panel {
+  border: 3px solid var(--accent);
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.stats-panel h2,
+.location-panel h2 {
+  margin: 0 0 15px 0;
+  color: var(--accent);
+  font-size: 16px;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 5px;
+}
+
+.stat {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.stat-name {
+  width: 100px;
+  color: var(--text);
+}
+
+.stat-value {
+  margin-left: 10px;
+}
+
+.health-bar {
+  width: 150px;
+  height: 12px;
+  background: #000;
+  border: 2px solid var(--text);
+  margin-left: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.health-bar-fill {
+  height: 100%;
+  background: var(--health);
+  transition: width 0.3s steps(10);
+}
+
+#enemy-container {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(255, 140, 120, 0.2);
+  border: 2px solid var(--enemy);
+}
+
+#enemy-container h3 {
+  color: var(--enemy);
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.enemy-health-bar {
+  background: var(--enemy);
+}
+
+.actions-panel {
+  padding: 15px;
+  background: var(--panel);
+  border-top: 3px solid var(--accent);
+}
+
+#move-actions,
+#combat-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.action-btn {
+  background: var(--button);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 0;
+  font-family: "Press Start 2P", cursive;
+  font-size: 12px;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+  transition: all 0.1s;
+}
+
+.action-btn:hover {
+  background: var(--button-hover);
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.action-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+.action-btn:disabled {
+  background: #555;
+  color: #999;
+  border-color: #999;
+  transform: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+#attack-btn {
+  background: #ff5a5f;
+  border-color: #ff8c78;
+}
+
+#use-item-btn {
+  background: #5aff7d;
+  border-color: #78ff8c;
+}
+
+#run-btn {
+  background: #ffbb5a;
+  border-color: #ffd178;
+}
+
+.log-panel {
+  padding: 15px;
+  background: var(--log);
+  border-top: 3px solid var(--accent);
+  min-height: 150px;
+}
+
+.log-content {
+  height: 150px;
+  overflow-y: auto;
+  font-size: 12px;
+  line-height: 1.6;
+  padding-right: 10px;
+}
+
+.log-content p {
+  margin: 8px 0;
+  padding: 5px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.reset-btn {
+  background: #b657ff;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-family: "Press Start 2P", cursive;
+  font-size: 14px;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+  display: block;
+  margin: 20px auto;
+  width: calc(100% - 40px);
+  transition: all 0.1s;
+}
+
+.reset-btn:hover {
+  background: #9b3dff;
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+@keyframes pixel-attack {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.enemy-attack {
+  animation: pixel-attack 0.3s steps(2);
+  color: var(--enemy);
+}
+
+.stats-panel::before,
+.location-panel::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+}
+
+.stats-panel::before {
+  top: -3px;
+  left: -3px;
+}
+
+.location-panel::before {
+  top: -3px;
+  left: -3px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e2138;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--button);
+  border: 1px solid white;
+}
