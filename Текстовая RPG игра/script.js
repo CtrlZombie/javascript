@@ -9,7 +9,27 @@ const game = {
     level: 1,
     experience: 0,
     nextLevelExp: 100,
-    inventory: ["Кофе", "Бутерброд"],
+    inventory: [
+      {
+        name: "Кофе",
+        type: "heal",
+        value: 15,
+        description: "Восстанавливает 15 здоровья",
+      },
+      {
+        name: "Бутерброд",
+        type: "heal",
+        value: 25,
+        description: "Восстанавливает 25 здоровья",
+      },
+      {
+        name: "Энергетик",
+        type: "buff",
+        value: 5,
+        duration: 3,
+        description: "+5 к атаке на 3 хода",
+      },
+    ],
     baseAttack: 10,
     attack: function () {
       return Math.floor(this.baseAttack + Math.random() * 10);
@@ -62,6 +82,7 @@ const game = {
     {
       name: "Бухгалтерия",
       description: "Последний рубеж. Здесь сидит грозная бухгалтерша.",
+      victoryDescription: "Пупа победил!",
       enemy: "Бухгалтерша",
       nextLocations: [],
     },
@@ -123,7 +144,6 @@ const game = {
     },
   },
   currentLocationIndex: 0,
-  currentEnemy: null,
   gameOver: false,
 };
 
@@ -159,6 +179,7 @@ function initGame() {
   setupEventListeners();
   addToLog("Игра началась! Пупа отправляется в бухгалтерию за зарплатой.");
   updateButtons();
+  document.getElementById("play-again-btn").classList.add("hidden");
 }
 
 function updatePlayerStats() {
@@ -167,7 +188,10 @@ function updatePlayerStats() {
     (game.player.health / game.player.maxHealth) * 100
   }%`;
   elements.playerLevel.textContent = game.player.level;
-  elements.playerInventory.textContent = game.player.inventory.join(", ");
+
+  elements.playerInventory.innerHTML = game.player.inventory
+    .map((item) => `${item.name} (${item.description})`)
+    .join("<br>");
 }
 
 function updateLocation() {
@@ -200,8 +224,8 @@ function updateButtons() {
 function startCombat(enemyName) {
   elements.enemyAttackText.textContent = "";
   elements.enemyAttackText.classList.remove("enemy-attack");
-
-  game.currentEnemy = Object.assign({}, game.enemies[enemyName]);
+  game.currentEnemy = JSON.parse(JSON.stringify(game.enemies[enemyName]));
+  game.currentEnemy.attack = game.enemies[enemyName].attack;
   elements.enemyName.textContent = game.currentEnemy.name;
   updateEnemyStats();
   elements.enemyContainer.classList.remove("hidden");
@@ -306,22 +330,65 @@ function useItem() {
     return;
   }
 
-  const item = game.player.inventory[0];
-  game.player.inventory.shift();
-  game.player.heal(15);
+  showItemSelection();
+}
+
+function showItemSelection() {
+  const itemList = document.getElementById("item-list");
+  itemList.innerHTML = "";
+
+  game.player.inventory.forEach((item, index) => {
+    const itemBtn = document.createElement("button");
+    itemBtn.className = "item-btn";
+    itemBtn.innerHTML = `<strong>${item.name}</strong>: ${item.description}`;
+    itemBtn.addEventListener("click", () => applyItemEffect(index));
+    itemList.appendChild(itemBtn);
+  });
+
+  document.getElementById("item-modal").classList.remove("hidden");
+}
+
+function applyItemEffect(itemIndex) {
+  const item = game.player.inventory[itemIndex];
+
+  switch (item.type) {
+    case "heal":
+      game.player.heal(item.value);
+      addToLog(
+        `Пупа использует ${item.name} и восстанавливает ${item.value} здоровья!`
+      );
+      break;
+
+    case "buff":
+      game.player.baseAttack += item.value;
+      addToLog(
+        `Пупа использует ${item.name} и получает +${item.value} к атаке на ${item.duration} хода!`
+      );
+      break;
+  }
+
+  game.player.inventory.splice(itemIndex, 1);
   updatePlayerStats();
-  addToLog(`Пупа использует ${item} и восстанавливает здоровье!`);
+  hideItemSelection();
 
   if (game.currentEnemy) {
     setTimeout(enemyAttack, 1000);
   }
 }
 
+function hideItemSelection() {
+  document.getElementById("item-modal").classList.add("hidden");
+}
+
+document
+  .getElementById("cancel-item")
+  .addEventListener("click", hideItemSelection);
+
 function tryRun() {
   if (!game.currentEnemy) return;
 
-  const success = Math.random() < 0.01;
-  if (success) {
+  const runSuccess = Math.random() < 0.01;
+  if (runSuccess) {
     addToLog("Пупа успешно сбежал от врага!");
     endCombat();
   } else {
@@ -354,33 +421,32 @@ function moveToLocation(locationIndex) {
   addToLog(`Пупа перемещается в ${targetLocation.name}.`);
 }
 
-function updateLocation() {
-  const location = game.locations[game.currentLocationIndex];
-  elements.locationName.textContent = location.name;
-  elements.locationDescription.textContent = location.description;
-  updateButtons();
-  if (location.enemy && !game.currentEnemy) {
-    startCombat(location.enemy);
-  }
-}
-
 function gameOver() {
   game.gameOver = true;
   addToLog("Пупа проиграл и не получил зарплату! Игра окончена.");
   elements.combatActions.classList.add("hidden");
   elements.moveActions.classList.add("hidden");
+  document.getElementById("play-again-btn").classList.remove("hidden");
+  document.getElementById("play-again-btn").textContent = "Попробовать снова";
 }
 
 function victory() {
   game.gameOver = true;
   elements.gameLog.innerHTML = "";
-  addToLog(
-    "Бухгалтерша: *роняет очки* Ой-ой-ой... Кажется, я ошиблась! Я перепутала и отдала вашу зарплату Лупе!"
-  );
+  addToLog("Бухгалтерша: *роняет очки* Ой-ой-ой... Кажется, я ошиблась!");
   addToLog("Пупа: *вздыхает* Опять придется получать за Лупу");
-  addToLog("Игра окончена. Пупа победил (или нет?...)");
+  const currentLocation = game.locations[game.currentLocationIndex];
+  if (currentLocation.victoryDescription) {
+    elements.locationDescription.textContent =
+      currentLocation.victoryDescription;
+    elements.locationDescription.classList.add("victory-message");
+  }
+
   elements.combatActions.classList.add("hidden");
   elements.moveActions.classList.add("hidden");
+  const playAgainBtn = document.getElementById("play-again-btn");
+  playAgainBtn.classList.remove("hidden");
+  playAgainBtn.textContent = "Сыграть ещё раз";
 }
 
 function addToLog(message) {
@@ -396,7 +462,27 @@ function resetGame() {
   game.player.level = 1;
   game.player.experience = 0;
   game.player.nextLevelExp = 100;
-  game.player.inventory = ["Кофе", "Бутерброд"];
+  game.player.inventory = [
+    {
+      name: "Кофе",
+      type: "heal",
+      value: 15,
+      description: "Восстанавливает 15 здоровья",
+    },
+    {
+      name: "Бутерброд",
+      type: "heal",
+      value: 25,
+      description: "Восстанавливает 25 здоровья",
+    },
+    {
+      name: "Энергетик",
+      type: "buff",
+      value: 5,
+      duration: 3,
+      description: "+5 к атаке на 3 хода",
+    },
+  ];
   game.player.baseAttack = 10;
   game.currentLocationIndex = 0;
   game.currentEnemy = null;
@@ -406,6 +492,11 @@ function resetGame() {
   updateLocation();
   endCombat();
   addToLog("Игра сброшена. Пупа снова отправляется за зарплатой!");
+  document.getElementById("play-again-btn").classList.add("hidden");
+  const currentLocation = game.locations[game.currentLocationIndex];
+  if (currentLocation.description) {
+    elements.locationDescription.textContent = currentLocation.description;
+  }
 }
 
 function setupEventListeners() {
@@ -416,6 +507,11 @@ function setupEventListeners() {
   elements.useItemBtn.addEventListener("click", useItem);
   elements.runBtn.addEventListener("click", tryRun);
   elements.resetBtn.addEventListener("click", resetGame);
+  document
+    .getElementById("play-again-btn")
+    .addEventListener("click", resetGame);
 }
 
-window.onload = initGame;
+document.addEventListener("DOMContentLoaded", function () {
+  initGame();
+});
