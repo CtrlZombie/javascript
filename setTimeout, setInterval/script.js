@@ -15,16 +15,28 @@ function countDown(prefix) {
 countDown("Счет");
 
 // 2.
-let reminderInterval;
+let reminderInterval = null;
 
 function showReminder() {
+  if (reminderInterval) {
+    clearInterval(reminderInterval);
+  }
+
   const reminderElement = document.getElementById("water-reminder");
   const drankButton = document.querySelector("#water-reminder button");
+
   reminderElement.style.display = "block";
+
   drankButton.onclick = function () {
     reminderElement.style.display = "none";
-    clearInterval(reminderInterval);
+
+    if (reminderInterval) {
+      clearInterval(reminderInterval);
+    }
+
     reminderInterval = setInterval(showReminder, 1800000);
+
+    console.log("Напоминание подтверждено, следующее через 30 минут");
   };
 }
 
@@ -56,27 +68,29 @@ function initReminderStyles() {
 
 initReminderStyles();
 
-setTimeout(showReminder, 1000);
+setTimeout(() => {
+  showReminder();
 
-reminderInterval = setInterval(showReminder, 1800000);
+  reminderInterval = setInterval(showReminder, 1800000);
+}, 1000);
 
 // 3.
-let intervalId = null;
+let waterIntervalId = null;
 const toggleButton = document.getElementById("toggleButton");
 const delayInput = document.getElementById("delay");
 const textInput = document.getElementById("text");
 
 toggleButton.addEventListener("click", () => {
-  if (intervalId) {
-    clearInterval(intervalId);
-    intervalId = null;
+  if (waterIntervalId) {
+    clearInterval(waterIntervalId);
+    waterIntervalId = null;
     toggleButton.textContent = "Начать";
     console.log("Вывод текста остановлен");
   } else {
     const delay = parseInt(delayInput.value);
     const text = textInput.value;
     console.log(text);
-    intervalId = setInterval(() => {
+    waterIntervalId = setInterval(() => {
       console.log(text);
     }, delay);
 
