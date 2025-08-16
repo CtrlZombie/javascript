@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Всплытие и погружение</title>
+</head>
+<body>
+    <div id="outer">
+        Внешний
+        <div id="middle">
+            Средний
+            <div id="inner">
+                Внутренний
+            </div>
+        </div>
+    </div>
+    <form id="myForm">
+        <label for="name">Имя:
+            <input type="text" id="name" name="name" data-maxlength="20">
+            <span class="error"></span>
+        </label>
+        <label>Email:
+            <input type="email" name="email" data-maxlength="20">
+            <span class="error"></span>
+        </label>
+        <button type="submit">Отправить</button>
+    </form>
+    <script src="script.js"></script> 
+</body>
+</html>
