@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajax и Fetch API</title>
+  </head>
+  <body>
+    <h1>Управление постами и пользователями</h1>
+
+    <!-- Секция создания поста -->
+    <section>
+      <h2>Создать новый пост</h2>
+      <form id="postForm">
+        <div>
+          <label
+            >ID пользователя: <input type="number" id="userId" required
+          /></label>
+        </div>
+        <div>
+          <label>Заголовок: <input type="text" id="title" required /></label>
+        </div>
+        <div>
+          <label>Текст: <textarea id="body" required></textarea></label>
+        </div>
+        <button type="submit">Создать пост</button>
+      </form>
+      <div id="postResponse"></div>
+    </section>
+
+    <!-- Секция управления постами -->
+    <section>
+      <h2>Управление постами</h2>
+      <button id="loadPosts">Загрузить посты</button>
+      <div id="postsContainer"></div>
+    </section>
+
+    <!-- Секция обновления пользователя -->
+    <section>
+      <h2>Обновить данные пользователя</h2>
+      <form id="userForm">
+        <div>
+          <label
+            >ID пользователя: <input type="number" id="updateUserId" required
+          /></label>
+        </div>
+        <div>
+          <label>Имя: <input type="text" id="userName" required /></label>
+        </div>
+        <div>
+          <label>Email: <input type="email" id="userEmail" required /></label>
+        </div>
+        <button type="submit">Обновить пользователя</button>
+      </form>
+      <div id="userResponse"></div>
+    </section>
+    <script src="script.js"></script>
+  </body>
+</html>
