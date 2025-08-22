@@ -81,3 +81,7 @@ console.log("toString удален:", customObj.toString === undefined); // true
 // Но встроенный метод prototype остался нетронутым
 console.log("Object.prototype.toString:", typeof Object.prototype.toString); // function
 
+/*Встроенные свойства объектов (как Object.prototype.toString) имеют атрибут [[Configurable]]: false
+Это означает, что их нельзя удалить, переопределить или изменить некоторые атрибуты
+Такая защита предотвращает случайное повреждение базовой функциональности JavaScript*/
+
